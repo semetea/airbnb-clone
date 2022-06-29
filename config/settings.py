@@ -43,6 +43,7 @@ PROJECT_APPS = [
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
     "rooms.apps.RoomsConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 TRHID_PARTY_APPS = ["django_countries"]
