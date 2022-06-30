@@ -27,7 +27,7 @@ class User(AbstractUser):  # Inherit from models.Model
 
     CURRENCY_CHOCIES = ((CURRENCY_USD, "USD"), (CURRENCY_KRW, "KRW"))
 
-    avatar = models.ImageField(blank=True)
+    avatar = models.ImageField(upload_to="avatars", blank=True)  # 폴더 지정
     gender = models.CharField(
         choices=GENDER_CHOICES, max_length=10, blank=True
     )  # oneline text

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-ire84-vu5mew6b^14_kb2i51f#sm(z+o9!bk*oz0q46cie8+n4"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # True -> Development mode, False -> Production mode
 
 ALLOWED_HOSTS = []
 
@@ -134,5 +134,11 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 AUTH_USER_MODEL = "users.User"  # rk
+
+import os
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")  # 사진 업로드 경로 지정
+
+MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
