@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.utils.html import (
+    mark_safe,
+)  # django prevent server from executing random html code from users. Using this, you can execute html code
 from . import models
 
 # Register your models here.
@@ -13,10 +16,17 @@ class ItemAdmin(admin.ModelAdmin):
         return obj.rooms.count()
 
 
+class PhotoInline(admin.TabularInline):
+
+    model = models.Photo
+
+
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
     """Room Admin Definition"""
+
+    inlines = (PhotoInline,)
 
     fieldsets = (
         (
@@ -60,6 +70,8 @@ class RoomAdmin(admin.ModelAdmin):
         "country",
     )
 
+    raw_id_fields = ("host",)  # allow admin to find host by search bar
+
     search_fields = ("=city", "^host__username")
 
     filter_horizontal = ("amenities", "facilities", "house_rules")
@@ -76,4 +88,11 @@ class PhotoAdmin(admin.ModelAdmin):
 
     """Photo Admin Definition"""
 
-    pass
+    list_display = ("__str__", "get_thunmbnail")
+
+    def get_thunmbnail(self, obj):
+        return mark_safe(
+            f'<img src="{obj.file.url}" width="50px" />'
+        )  # html코드 실행 시켜주는 method
+
+    get_thunmbnail.short_description = "Thunmbnail"
