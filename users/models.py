@@ -33,6 +33,10 @@ class User(AbstractUser):  # Inherit from models.Model
     )  # oneline text
     bio = models.TextField(default="", blank=True)  # multi-line text
     birthdate = models.DateField(null=True, blank=True)
-    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, blank=True)
-    currency = models.CharField(choices=CURRENCY_CHOCIES, max_length=3, blank=True)
+    language = models.CharField(
+        choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN
+    )
+    currency = models.CharField(
+        choices=CURRENCY_CHOCIES, max_length=3, blank=True, default=CURRENCY_KRW
+    )
     superhost = models.BooleanField(default=False)
