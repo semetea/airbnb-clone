@@ -142,3 +142,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")  # 사진 업로드 경로 지정
 MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Email Configuration
+
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")  # get constant from .env file
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
+print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+EMAIL_FROM = "postmaster@sandboxa0eaed91d7344476a930d22095ded33c.mailgun.org"
