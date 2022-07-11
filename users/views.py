@@ -66,46 +66,60 @@ def github_login(request):
     )
 
 
+class GithubException(Exception):
+    pass
+
+
 def github_callback(request):
-    client_id = os.environ.get("GITHUB_ID")
-    client_secret = os.environ.get("GITHUB_SECRET")
-    code = request.GET.get("code", None)
-    print(code)
-    if code is not None:
-        result = requests.post(
-            f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
-            headers={"Accept": "application/json"},
-        )
-        result_json = result.json()
-        error = result_json.get("error", None)
-        if error is not None:
-            return redirect(reverse("users:login"))
-        else:
-            access_token = result_json.get("access_token")
-            api_request = requests.get(
-                "https://api.github.com/user",
-                headers={
-                    "Authorization": f"token {access_token}",
-                    "Accept": "application/json",
-                },
+    try:
+        client_id = os.environ.get("GITHUB_ID")
+        client_secret = os.environ.get("GITHUB_SECRET")
+        code = request.GET.get("code", None)
+        if code is not None:
+            token_request = requests.post(
+                f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
+                headers={"Accept": "application/json"},
             )
-            profile_json = profile_request.json()
-            username = profile_json.get("login", None)
-            if username is not None:
-                name = profile_json.get("name")
-                email = profile_json.get("email")
-                bio = profile_json.get("bio")
-                user = models.User.objects.get(email=email)
-                if user is not None:
-                    return redirect(reverse("users:login"))
-                else:
-                    user = models.User.objects.create(
-                        username=email, first_name=name, bio=bio, email=email
-                    )
+            toekn_json = token_request.json()
+            error = toekn_json.get("error", None)
+            if error is not None:
+                raise GithubException
+            else:
+                access_token = toekn_json.get("access_token")
+                profile_request = requests.get(
+                    "https://api.github.com/user",
+                    headers={
+                        "Authorization": f"token {access_token}",
+                        "Accept": "application/json",
+                    },
+                )
+                profile_json = profile_request.json()
+                username = profile_json.get("login", None)
+                if username is not None:
+                    name = profile_json.get("name")
+                    email = profile_json.get("email")
+                    bio = profile_json.get("bio")
+                    try:
+                        user = models.User.objects.get(email=email)
+                        if user.login_method != models.User.LOGIN_GITHUB:
+                            raise GithubException()
+                    except models.User.DoesNotExist:
+                        user = models.User.objects.create(
+                            email=email,
+                            first_name=name,
+                            username=email,
+                            bio=bio,
+                            login_method=models.User.LOGIN_GITHUB,
+                        )
+                        user.set_unusable_password()  # user will be not able to login with any password
+                        user.save()
                     login(request, user)
                     return redirect(reverse("core:home"))
-            else:
-                return redirect(reverse("users:login"))
+                else:
+                    raise GithubException
 
-    else:
-        return redirect(reverse("core:home"))
+        else:
+            raise GithubException
+    except GithubException:
+        # send error message
+        return redirect(reverse("users:login"))
