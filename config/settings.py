@@ -146,8 +146,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Email Configuration
 
 EMAIL_HOST = "smtp.mailgun.org"
-EMAIL_PORT = "587"
+EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")  # get constant from .env file
 EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
-print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-EMAIL_FROM = "postmaster@sandboxa0eaed91d7344476a930d22095ded33c.mailgun.org"
+EMAIL_FROM = "airbnb@sandboxa0eaed91d7344476a930d22095ded33c.mailgun.org"
