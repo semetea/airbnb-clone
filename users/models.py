@@ -32,6 +32,16 @@ class User(AbstractUser):  # Inherit from models.Model
 
     CURRENCY_CHOCIES = ((CURRENCY_USD, "USD"), (CURRENCY_KRW, "KRW"))
 
+    LOGIN_EMAIL = "email"
+    LOGIN_GITHUB = "github"
+    LOGIN_KAKAO = "kakao"
+
+    LOGIN_CHOICES = (
+        (LOGIN_EMAIL, "Email"),
+        (LOGIN_GITHUB, "Github"),
+        (LOGIN_KAKAO, "Kakao"),
+    )
+
     avatar = models.ImageField(upload_to="avatars", blank=True)  # 폴더 지정
     gender = models.CharField(
         choices=GENDER_CHOICES, max_length=10, blank=True
@@ -47,6 +57,9 @@ class User(AbstractUser):  # Inherit from models.Model
     superhost = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=120, default="", blank=True)
+    login_method = models.CharField(
+        choices=LOGIN_CHOICES, max_length=50, default=LOGIN_EMAIL
+    )
 
     def verify_email(self):
         if self.email_verified is False:
