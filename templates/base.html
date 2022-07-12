@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <title>{% block page_title %}{% endblock page_title %} | Nbnb</title>
 </head>
 
@@ -13,14 +15,14 @@
 
         {% include "partials/nav.html" %}
         {% block search-bar %}
-            <form method="get" action="{% url "rooms:search" %}">
-                <input name="city" placeholder="Search by City" />
-            </form>        
+        <form method="get" action="{% url "rooms:search" %}">
+            <input name="city" placeholder="Search by City" />
+        </form>
         {% endblock search-bar %}
     </header>
 
     {% block content %} # content를 넣은 space 확보
-    
+
     {% endblock content %}
 
     {% include "partials/footer.html" %}
