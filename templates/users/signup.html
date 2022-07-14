@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block page_title %}
-    Sign up
+Sign up
 {% endblock page_title %}
 
 {% block search-bar %}
@@ -9,9 +9,22 @@
 {% endblock search-bar %}
 
 {% block content %}
-   <form method="POST" action="{% url 'users:signup' %}">
+
+<div class="containers lg:w-4/12 md:w-1/2 xl:w-1/4 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+    {% include 'partials/social_login.html' %}
+    <form method="POST" action="{% url 'users:signup' %}">
         {% csrf_token %}
-        {{form.as_p}}
-        <button>Sign up</button>
-   </form>
+        {{form.first_name}}
+        {{form.last_name}}
+        {{form.email}}
+        {{form.password}}
+        {{form.password1}}
+        <button class="btn bg-red-500 text-white">Sign up</button>
+    </form>
+
+    <div class="mt-3">
+        <span class="mr-2">Have an account?</span>
+        <a href="{% url 'users:login' %}" class="text-teal-500 font-medium">Log In</a>
+    </div>
+</div>
 {% endblock content %}
