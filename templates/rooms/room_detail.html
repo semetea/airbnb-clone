@@ -14,4 +14,82 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="container mx-auto flex justify-around pb-56">
+    <div class="w-1/2">
+        <div class="flex justify-between">
+            <div class="mb-5">
+                <h4 class="text-3x1 font-medium mb-px">{{room.name}}</h4>
+                <span class="text-gray-700 font-light">{{room.city}}</span>
+            </div>
+            <a href="{{room.host.get_absolute_url}}" class="flex flex-col items-center">
+                {% include 'mixins/user_avatar.html' with user=room.host %}
+                <span class="mt-2 text-gray-500">{{room.host.first_name}}</span>
+            </a>
+        </div>
+        <div class="flex border-section">
+            <span class="mr-5">{{room.room_type}}</span>
+            <span class="mr-5">{{room.beds}} bed{{room.beds|pluralize}}</span>
+            <span class="mr-5">{{room.bedrooms}} bedrooms{{room.bedrooms|pluralize}}</span>
+            <span class="mr-5">{{room.baths}} bath{{room.baths|pluralize}}</span>
+            <span class="mr-5">{{room.guests}} guest{{room.guests|pluralize}}</span>
+        </div>
+        <p class="border-section">
+            {{room.description}}
+        </p>
+        <div class="border-section">
+            <h4 class="font-medium text-lg mb-5">Amenities</h4>
+
+            {% for a in room.amenities.all %}
+            <li class="mb-2">{{a}}</li>
+            {% endfor %}
+        </div>
+        <div class="border-section">
+            <h4 class="font-medium text-lg mb-5">Facilities</h4>
+
+            {% for f in room.facilities.all %}
+            <li class="mb-2">{{f}}</li>
+            {% endfor %}
+        </div>
+        <div class="border-section">
+            <h4 class="font-medium text-lg mb-5">House Rules</h4>
+
+            {% for h in room.house_ruls.all %}
+            <li class="mb-2">{{h}}</li>
+            {% endfor %}
+        </div>
+        <div class="mt-10">
+            <h4 class="font-medium text-2xl mb-5">Reviews</h4>
+            <div class="flex items-center">
+                <div>
+                    <i class="fas fa-star text-teal-500"></i>
+                    <span class="font-bold text-xl">{{room.total_rating}}</span>
+                </div>
+                <div class="h-5 w-px bg-gray-400 mx-5"></div>
+                <div>
+                    <span class="font-bold text-xl">{{room.reviews.count}}</span>
+                    <span class="">review{{room.reviews.count|pluralize}}</span>
+                </div>
+                <div class="mt-10">
+                    {% for review in room.reviews.all %}
+                    <div class="border-section">
+                        <div class="mb-3 flex">
+                            <div>
+                                {% include 'mixins/user_avatar.html' with user=review.user h_and_w='w-10 h-10' text='text-xl' %}
+                            </div>
+                            <div class="flex flex-col ml-5">
+                                <span class="font-medium">{{review.user.first_name}}</span>
+                                <span class="text-sm text-gray-500">{{review.created|date:'F Y'}}</span>
+                            </div>
+                        </div>
+                        <p>{{review.review}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="w-1/3"></div>
+</div>
 {% endblock content %}
