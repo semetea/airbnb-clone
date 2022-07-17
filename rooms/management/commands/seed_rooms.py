@@ -22,9 +22,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         number = options.get("number")
         seeder = Seed.seeder()
-        all_users = (
-            user_models.User.objects.all()
-        )  # User.object.all() would make a problem if there is over a milion users
+        # User.object.all() would make a problem if there is over a milion users
+        all_users = user_models.User.objects.all()
         room_types = room_models.RoomType.objects.all()
         seeder.add_entity(
             room_models.Room,
@@ -33,11 +32,11 @@ class Command(BaseCommand):
                 "name": lambda x: seeder.faker.address(),
                 "host": lambda x: random.choice(all_users),
                 "room_type": lambda x: random.choice(room_types),
-                "price": lambda x: random.randint(0, 5),
+                "price": lambda x: random.randint(1, 300),
                 "beds": lambda x: random.randint(1, 5),
-                "bedrooms": lambda x: random.randint(0, 5),
+                "bedrooms": lambda x: random.randint(1, 5),
                 "baths": lambda x: random.randint(1, 5),
-                "guests": lambda x: random.randint(1, 10),
+                "guests": lambda x: random.randint(1, 20),
             },
         )
         created_photos = seeder.execute()
