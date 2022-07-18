@@ -152,3 +152,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")  # get constant from .env file
 EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
 EMAIL_FROM = "airbnb@sandboxa0eaed91d7344476a930d22095ded33c.mailgun.org"
+
+LOGIN_URL = "/users/login"
