@@ -22,7 +22,7 @@ class Calendar(calendar.Calendar):
             "December",
         )
 
-    def get_weeks(self):
+    def get_days(self):
         weeks = self.monthdays2calendar(self.year, self.month)
         days = []
         for week in weeks:
