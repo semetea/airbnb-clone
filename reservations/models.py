@@ -33,7 +33,9 @@ class Reservation(core_models.TimeStampedModel):
         (STATUS_CANCELED, "Canceled"),
     )
 
-    status = models.CharField(max_length=12, choices=STATUS_CHOICES)
+    status = models.CharField(
+        max_length=12, choices=STATUS_CHOICES, default=STATUS_PENDING
+    )
     check_in = models.DateField()
     check_out = models.DateField()
     guest = models.ForeignKey(
