@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,8 +22,8 @@
             {% block search-bar %}
             <form method="get" action="{% url "rooms:search" %}" class="w-9/12">
                 <input
-                    class=" search-box border px-5 w-full font-medium text-gray-900 placeholder-gray-600 py-3 rounded-sm shadow-md hover:shadow-lg focus:outline-none"
-                    name="city" placeholder="Search by City" />
+                    class="search-box border px-5 w-full font-medium text-gray-900 placeholder-gray-600 py-3 rounded-sm shadow-md hover:shadow-lg focus:outline-none"
+                    name="city" placeholder="{% trans 'Search by City' %}" />
             </form>
             {% endblock search-bar %}
         </div>
@@ -34,6 +34,16 @@
     <!-- content를 넣은 space 확보 -->
 
     {% include "partials/footer.html" %}
+    <script>
+        const langSelect = document.getElementById("js-lang")
+        const handleLangChange = () => {
+            const selected = langSelect.value;
+            fetch(`{% url 'users:switch-lang' %}?lang=${selected}`).then(() => { 
+                window.location.reload()
+            })
+        }
+        langSelect.addEventListener("change", handleLangChange)
+    </script>
 </body>
 
 </html>

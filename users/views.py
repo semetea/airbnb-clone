@@ -1,6 +1,7 @@
 import os
-from psycopg2 import apilevel
 import requests
+from django.utils import translation
+from django.http import HttpResponse
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import FormView, DetailView, UpdateView
@@ -12,6 +13,7 @@ from django.core.files.base import ContentFile
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from . import forms, models, mixins
+from config import settings
 
 # Create your views here.
 class LoginView(mixins.LoggedOutOnlyView, FormView):
@@ -277,3 +279,11 @@ def switch_hosting(request):
     except KeyError:
         request.session["is_hosting"] = True
     return redirect(reverse("core:home"))
+
+
+def switch_lang(request):
+    lang = request.GET.get("lang", None)
+    if lang is not None:
+        response = HttpResponse(200)
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response

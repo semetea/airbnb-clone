@@ -1,4 +1,5 @@
 import uuid
+from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -18,15 +19,18 @@ class User(AbstractUser):  # Inherit from models.Model
     GENDER_OTHER = "other"
 
     GENDER_CHOICES = (
-        (GENDER_MALE, "Male"),
-        (GENDER_FEMALE, "Female"),
-        (GENDER_OTHER, "Other"),
+        (GENDER_MALE, _("Male")),
+        (GENDER_FEMALE, _("Female")),
+        (GENDER_OTHER, _("Other")),
     )
 
     LANGUAGE_ENGLISH = "en"
     LANGUAGE_KOREAN = "kr"
 
-    LANGUAGE_CHOICES = ((LANGUAGE_ENGLISH, "English"), (LANGUAGE_KOREAN, "Korean"))
+    LANGUAGE_CHOICES = (
+        (LANGUAGE_ENGLISH, _("English")),
+        (LANGUAGE_KOREAN, _("Korean")),
+    )
 
     CURRENCY_USD = "usd"
     CURRENCY_KRW = "krw"
@@ -45,12 +49,16 @@ class User(AbstractUser):  # Inherit from models.Model
 
     avatar = models.ImageField(upload_to="avatars", blank=True)  # 폴더 지정
     gender = models.CharField(
-        choices=GENDER_CHOICES, max_length=10, blank=True
+        _("gender"), choices=GENDER_CHOICES, max_length=10, blank=True
     )  # oneline text
-    bio = models.TextField(default="", blank=True)  # multi-line text
+    bio = models.TextField(_("gender"), blank=True)  # multi-line text
     birthdate = models.DateField(null=True, blank=True)
     language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN
+        _("language"),
+        choices=LANGUAGE_CHOICES,
+        max_length=2,
+        blank=True,
+        default=LANGUAGE_KOREAN,
     )
     currency = models.CharField(
         choices=CURRENCY_CHOCIES, max_length=3, blank=True, default=CURRENCY_KRW
