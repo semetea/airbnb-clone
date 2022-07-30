@@ -13,6 +13,7 @@ django-dotenv = "*"
 requests = "*"
 pathspec = "*"
 awsebcli = "*"
+pipenv-to-requirements = "*"
 
 [dev-packages]
 flake8 = "*"
