@@ -12,12 +12,11 @@ psycopg2 = "*"
 django-dotenv = "*"
 requests = "*"
 pathspec = "*"
-awsebcli = "*"
-pipenv-to-requirements = "*"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
+awsebcli = "*"
 
 [requires]
 python_version = "3.10"
